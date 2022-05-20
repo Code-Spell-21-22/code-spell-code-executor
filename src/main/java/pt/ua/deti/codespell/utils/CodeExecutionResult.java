@@ -14,10 +14,14 @@ public class CodeExecutionResult {
     private final int score;
 
     public static class Builder {
-        private UUID codeUniqueId = UUID.fromString("00000000-0000-0000-0000-000000000000");
+        private UUID codeUniqueId;
         private ExecutionStatus executionStatus = ExecutionStatus.NONE;
         private long time = 0;
         private int score = 0;
+
+        public Builder(UUID codeUniqueId) {
+            this.codeUniqueId = codeUniqueId;
+        }
 
         public Builder withCodeUniqueId(UUID codeUniqueId) {
             this.codeUniqueId = codeUniqueId;

@@ -9,12 +9,14 @@ import java.util.UUID;
 
 public class Main {
 
-    public static void main( String[] args ) throws IOException {
+    private static CodeExecution currentCodeExecution;
 
-        CodeExecution currentCodeExecution = getCurrentCodeExecution();
+    public static void main(String[] args) throws IOException {
+
+         currentCodeExecution = getCurrentCodeExecution();
 
         if (currentCodeExecution == null) {
-            writeResults(new CodeExecutionResult.Builder().withExecutionStatus(ExecutionStatus.PRE_CHECK_ERROR).build());
+            writeResults(new CodeExecutionResult.Builder(null).withExecutionStatus(ExecutionStatus.PRE_CHECK_ERROR).build());
             return;
         }
 
@@ -22,7 +24,7 @@ public class Main {
             writeResults(remoteCodeExecutor());
         } catch (Exception e) {
             System.out.println("Exception thrown while running remote code: " + e.getMessage());
-            writeResults(new CodeExecutionResult.Builder().withExecutionStatus(ExecutionStatus.RUNTIME_ERROR).build());
+            writeResults(new CodeExecutionResult.Builder(currentCodeExecution.getCodeUniqueId()).withExecutionStatus(ExecutionStatus.RUNTIME_ERROR).build());
         }
 
     }
@@ -38,7 +40,7 @@ public class Main {
         String levelNumberVar = System.getenv("LEVEL_NUMBER");
 
         if (!chapterNumberVar.matches("\\d") || !levelNumberVar.matches("\\d")) {
-            return new CodeExecutionResult.Builder().withExecutionStatus(ExecutionStatus.PRE_CHECK_ERROR).build();
+            return new CodeExecutionResult.Builder(currentCodeExecution.getCodeUniqueId()).withExecutionStatus(ExecutionStatus.PRE_CHECK_ERROR).build();
         }
 
         int chapterNumber = Integer.parseInt(chapterNumberVar);
@@ -50,7 +52,7 @@ public class Main {
             }
         }
 
-        return new CodeExecutionResult.Builder().withExecutionStatus(ExecutionStatus.SUCCESS).build();
+        return new CodeExecutionResult.Builder(currentCodeExecution.getCodeUniqueId()).withExecutionStatus(ExecutionStatus.SUCCESS).build();
 
     }
 
