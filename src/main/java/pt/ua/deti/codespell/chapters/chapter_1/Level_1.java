@@ -8,16 +8,22 @@ public class Level_1 {
 
         File outputFile = new File(File.separator + "output.txt");
         PrintStream outputPrintStream = new PrintStream(new BufferedOutputStream(new FileOutputStream(outputFile)));
+        PrintStream originalStdout = System.out;
 
         System.setOut(outputPrintStream);
 
         try {
-            HelloWorld.main(new String[] {});
+            HelloWorldApp.main(new String[] {});
         } catch (Exception e) {
             System.out.println("Error");
         }
 
+        System.setOut(originalStdout);
+
+        outputPrintStream.close();
+
     }
+
 
 }
 

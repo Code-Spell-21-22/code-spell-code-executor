@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import pt.ua.deti.codespell.chapters.chapter_1.Level_1;
 import pt.ua.deti.codespell.utils.*;
 
+import pt.ua.deti.codespell.syntax_tree.handlers.chapter1.Level1SyntaxTree;
+
 import java.io.*;
 import java.util.UUID;
 
@@ -47,9 +49,17 @@ public class Main {
         int levelNumber = Integer.parseInt(levelNumberVar);
 
         if (chapterNumber == 1) {
+
             if (levelNumber == 1) {
-                new Level_1().execute();
+
+                Level_1 level_1 = new Level_1();
+                level_1.execute();
+
+                Level1SyntaxTree level1SyntaxTree = new Level1SyntaxTree();
+                level1SyntaxTree.writeStepsReport(level1SyntaxTree.generateStepsReport());
+
             }
+
         }
 
         return new CodeExecutionResult.Builder(currentCodeExecution.getCodeUniqueId()).withExecutionStatus(ExecutionStatus.SUCCESS).build();
