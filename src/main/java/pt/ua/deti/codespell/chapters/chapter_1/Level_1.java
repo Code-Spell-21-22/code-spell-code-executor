@@ -37,6 +37,9 @@ public class Level_1 {
 
         System.setOut(originalStdout);
 
+        outputPrintStream.flush();
+        runtimeLogsStream.flush();
+
         outputPrintStream.close();
         runtimeLogsStream.close();
 

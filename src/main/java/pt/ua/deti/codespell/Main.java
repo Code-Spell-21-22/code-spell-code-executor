@@ -108,7 +108,7 @@ public class Main {
             e.printStackTrace();
         }
 
-        return new File[] {runtimeLogsFile, outputFile};
+        return new File[] {outputFile, runtimeLogsFile};
 
     }
 
