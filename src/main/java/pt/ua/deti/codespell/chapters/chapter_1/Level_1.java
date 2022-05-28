@@ -4,10 +4,27 @@ import java.io.*;
 
 public class Level_1 {
 
-    public void execute() throws IOException {
+    private final File outputFile;
+    private final File runtimeLogsFile;
 
-        File outputFile = new File(File.separator + "output.txt");
-        PrintStream outputPrintStream = new PrintStream(new BufferedOutputStream(new FileOutputStream(outputFile)));
+    public Level_1(File[] outputFiles) {
+        this.outputFile = outputFiles[0];
+        this.runtimeLogsFile = outputFiles[1];
+    }
+
+    public void execute() {
+
+        PrintStream outputPrintStream;
+        PrintStream runtimeLogsStream;
+
+        try {
+            outputPrintStream = new PrintStream(new BufferedOutputStream(new FileOutputStream(outputFile)));
+            runtimeLogsStream = new PrintStream(new BufferedOutputStream(new FileOutputStream(runtimeLogsFile)));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }
+
         PrintStream originalStdout = System.out;
 
         System.setOut(outputPrintStream);
@@ -15,15 +32,15 @@ public class Level_1 {
         try {
             HelloWorldApp.main(new String[] {});
         } catch (Exception e) {
-            System.out.println("Error");
+            runtimeLogsStream.println(e.getMessage());
         }
 
         System.setOut(originalStdout);
 
         outputPrintStream.close();
+        runtimeLogsStream.close();
 
     }
-
 
 }
 
