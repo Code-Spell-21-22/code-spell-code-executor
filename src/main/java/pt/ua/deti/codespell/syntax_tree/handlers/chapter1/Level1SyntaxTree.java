@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,9 +36,9 @@ public class Level1SyntaxTree extends AbstractLevelSyntaxTree {
 
     }
 
-    public List<Object> getStepArgs(int step) {
+    public List<String> getStepArgs(int step) {
         if (step == 3)
-            return Collections.singletonList(getStep3Args());
+            return getStep3Args();
         return new ArrayList<>();
     }
 

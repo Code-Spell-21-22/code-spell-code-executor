@@ -48,6 +48,6 @@ public abstract class AbstractLevelSyntaxTree {
 
     public abstract boolean isStepValid(int step);
 
-    public abstract List<Object> getStepArgs(int step);
+    public abstract List<String> getStepArgs(int step);
 
 }

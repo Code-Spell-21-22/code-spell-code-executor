@@ -9,6 +9,6 @@ public class Step {
 
     private final int id;
     private final boolean successful;
-    private final List<Object> args;
+    private final List<String> args;
 
 }
