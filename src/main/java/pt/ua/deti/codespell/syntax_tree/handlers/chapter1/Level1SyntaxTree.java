@@ -158,7 +158,7 @@ public class Level1SyntaxTree extends AbstractLevelSyntaxTree {
             System.out.println("Error reading output lines");
         }
 
-        return output.isEmpty() ? output : output.subList(0,1);
+        return output;
 
     }
 
