@@ -1,17 +1,14 @@
 package pt.ua.deti.codespell;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.log4j.Log4j2;
 import pt.ua.deti.codespell.chapters.chapter_1.Level_1;
 import pt.ua.deti.codespell.utils.*;
 
 import pt.ua.deti.codespell.syntax_tree.handlers.chapter1.Level1SyntaxTree;
 
 import java.io.*;
-import java.util.List;
 import java.util.UUID;
 
-@Log4j2
 public class Main {
 
     private static CodeExecution currentCodeExecution;
