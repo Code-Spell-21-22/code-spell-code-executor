@@ -176,6 +176,8 @@ public class Level1SyntaxTree extends AbstractLevelSyntaxTree {
             return false;
         }
 
+        score += conditions.stream().filter(aBoolean -> aBoolean).count() * 10;
+
         return true;
 
     }
