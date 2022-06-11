@@ -43,8 +43,18 @@ public class Level1SyntaxTree extends AbstractLevelSyntaxTree {
     }
 
     private boolean testStep1() {
+
         ClassScanner[] classScanners = LevelSyntaxTreeHandler.scanFile(fileToAnalyze, new ClassScanner());
-        return classScanners[0].getClassesCounter() >= 2 && classScanners[0].getClassesNames().contains("HelloWorldApp");
+
+        List<Boolean> conditions = new ArrayList<>();
+
+        conditions.add(classScanners[0].getClassesCounter() >= 2);
+        conditions.add(classScanners[0].getClassesNames().contains("HelloWorldApp"));
+
+        score += conditions.stream().filter(aBoolean -> aBoolean).count() * 10;
+
+        return conditions.stream().allMatch(b -> b);
+
     }
 
     private boolean testStep2() {
@@ -53,7 +63,11 @@ public class Level1SyntaxTree extends AbstractLevelSyntaxTree {
 
         MethodScanner[] methodScanners = LevelSyntaxTreeHandler.scanFile(fileToAnalyze, new MethodScanner());
 
+        List<Boolean> conditions = new ArrayList<>();
+
         boolean isCorrectCount = methodScanners[0].getMethodsCounter() >= 1;
+
+        conditions.add(isCorrectCount);
 
         if (!isCorrectCount) {
             stepTips.add("No methods were found in your class.");
@@ -66,6 +80,8 @@ public class Level1SyntaxTree extends AbstractLevelSyntaxTree {
                 .collect(Collectors.toList())
                 .contains("main");
 
+        conditions.add(hasMainMethod);
+
         if (!hasMainMethod) {
             stepTips.add("No main method was found in your class.");
             return false;
@@ -76,7 +92,10 @@ public class Level1SyntaxTree extends AbstractLevelSyntaxTree {
                 .map(String::toLowerCase)
                 .collect(Collectors.toList()).indexOf("main");
 
+
         boolean isMainMethodPublic = methodScanners[0].getMethodsModifiers().get(mainMethodIdx).contains(Modifier.PUBLIC);
+
+        conditions.add(isMainMethodPublic);
 
         if (!isMainMethodPublic) {
             stepTips.add("The main method should be public.");
@@ -85,6 +104,8 @@ public class Level1SyntaxTree extends AbstractLevelSyntaxTree {
 
         boolean isMainMethodStatic = methodScanners[0].getMethodsModifiers().get(mainMethodIdx).contains(Modifier.STATIC);
 
+        conditions.add(isMainMethodStatic);
+
         if (!isMainMethodStatic) {
             stepTips.add("The main method should be static.");
             return false;
@@ -92,10 +113,14 @@ public class Level1SyntaxTree extends AbstractLevelSyntaxTree {
 
         boolean doesMainReturnVoid = methodScanners[0].getMethodsReturnTypes().get(mainMethodIdx).toString().equalsIgnoreCase("void");
 
+        conditions.add(doesMainReturnVoid);
+
         if (!doesMainReturnVoid) {
             stepTips.add(String.format("The main method should return void. It returns %s.", methodScanners[0].getMethodsReturnTypes().get(mainMethodIdx).toString()));
             return false;
         }
+
+        score += conditions.stream().filter(aBoolean -> aBoolean).count() * 10;
 
         return true;
 
@@ -107,6 +132,8 @@ public class Level1SyntaxTree extends AbstractLevelSyntaxTree {
 
         MethodScanner[] methodScanners = LevelSyntaxTreeHandler.scanFile(fileToAnalyze, new MethodScanner());
 
+        List<Boolean> conditions = new ArrayList<>();
+
         int mainMethodIdx = methodScanners[0].getMethodsNames()
                 .stream()
                 .map(String::toLowerCase)
@@ -114,7 +141,11 @@ public class Level1SyntaxTree extends AbstractLevelSyntaxTree {
 
         BlockTree mainMethodBody = methodScanners[0].getMethodsBody().get(mainMethodIdx);
 
-        if (mainMethodBody.getStatements().isEmpty()) {
+        boolean hasStatements = !mainMethodBody.getStatements().isEmpty();
+
+        conditions.add(hasStatements);
+
+        if (!hasStatements) {
             stepTips.add("You should have statements inside the main function.");
             return false;
         }
@@ -123,6 +154,8 @@ public class Level1SyntaxTree extends AbstractLevelSyntaxTree {
                 .stream()
                 .map(Tree::getKind)
                 .anyMatch(kind -> kind == Tree.Kind.EXPRESSION_STATEMENT);
+
+        conditions.add(hasExpressionStatement);
 
         if (!hasExpressionStatement) {
             stepTips.add("Your main function must have at least one expression statement.");

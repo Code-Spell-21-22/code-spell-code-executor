@@ -16,6 +16,8 @@ public abstract class AbstractLevelSyntaxTree {
     protected int stepsCount;
     @Getter protected List<String> stepTips;
 
+    @Getter protected int score = 0;
+    
     public AbstractLevelSyntaxTree(File fileToAnalyze, int stepsCount) {
         this.fileToAnalyze = fileToAnalyze;
         this.stepsCount = stepsCount;

@@ -2,6 +2,7 @@ package pt.ua.deti.codespell;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import pt.ua.deti.codespell.chapters.chapter_1.Level_1;
+import pt.ua.deti.codespell.syntax_tree.handlers.AbstractLevelSyntaxTree;
 import pt.ua.deti.codespell.utils.*;
 
 import pt.ua.deti.codespell.syntax_tree.handlers.chapter1.Level1SyntaxTree;
@@ -48,6 +49,10 @@ public class Main {
         int chapterNumber = Integer.parseInt(chapterNumberVar);
         int levelNumber = Integer.parseInt(levelNumberVar);
 
+        long startTime = System.currentTimeMillis();
+
+        AbstractLevelSyntaxTree levelSyntaxTree = null;
+
         if (chapterNumber == 1) {
 
             if (levelNumber == 1) {
@@ -55,14 +60,24 @@ public class Main {
                 Level_1 level_1 = new Level_1(initCodeExecOutputFiles());
                 level_1.execute();
 
-                Level1SyntaxTree level1SyntaxTree = new Level1SyntaxTree();
-                level1SyntaxTree.writeStepsReport(level1SyntaxTree.generateStepsReport());
+                levelSyntaxTree = new Level1SyntaxTree();
+                levelSyntaxTree.writeStepsReport(levelSyntaxTree.generateStepsReport());
 
             }
 
         }
 
-        return new CodeExecutionResult.Builder(currentCodeExecution.getCodeUniqueId()).withExecutionStatus(ExecutionStatus.SUCCESS).build();
+        if (levelSyntaxTree == null) {
+            return new CodeExecutionResult.Builder(currentCodeExecution.getCodeUniqueId())
+                    .withExecutionStatus(ExecutionStatus.PRE_CHECK_ERROR).build();
+        }
+
+        int staticAnalysisScore = levelSyntaxTree.getScore();
+        long executionTime = System.currentTimeMillis() - startTime;
+
+        return new CodeExecutionResult.Builder(currentCodeExecution.getCodeUniqueId())
+                .withScore((int) (30000 - executionTime + staticAnalysisScore))
+                .withExecutionStatus(ExecutionStatus.SUCCESS).build();
 
     }
 
