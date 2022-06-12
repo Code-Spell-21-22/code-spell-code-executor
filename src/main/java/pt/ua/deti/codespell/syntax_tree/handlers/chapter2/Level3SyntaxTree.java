@@ -38,6 +38,8 @@ public class Level3SyntaxTree extends AbstractLevelSyntaxTree {
     @Override
     public List<String> getStepArgs(int step) {
         switch (step) {
+            case 1:
+                return getStep1Args();
             case 2:
                 return getStep2Args();
             case 3:
@@ -335,6 +337,25 @@ public class Level3SyntaxTree extends AbstractLevelSyntaxTree {
 
         score += conditions.stream().filter(aBoolean -> aBoolean).count() * 10;
         return true;
+
+    }
+
+    private List<String> getStep1Args() {
+
+        List<String> output = new ArrayList<>();
+        File outputFile = new File(File.separator + "output.txt");
+
+        try {
+            output = Files.readAllLines(outputFile.toPath());
+        } catch (IOException ignored) {
+            System.out.println("Error reading output lines");
+        }
+
+        if (output.contains("[System Output] Night")) {
+            return Collections.singletonList("false");
+        } else {
+            return Collections.singletonList("true");
+        }
 
     }
 
