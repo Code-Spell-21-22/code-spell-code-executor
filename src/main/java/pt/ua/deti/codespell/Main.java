@@ -2,7 +2,9 @@ package pt.ua.deti.codespell;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import pt.ua.deti.codespell.chapters.chapter_1.Level_1;
+import pt.ua.deti.codespell.chapters.chapter_2.Level_3;
 import pt.ua.deti.codespell.syntax_tree.handlers.AbstractLevelSyntaxTree;
+import pt.ua.deti.codespell.syntax_tree.handlers.chapter2.Level3SyntaxTree;
 import pt.ua.deti.codespell.utils.*;
 
 import pt.ua.deti.codespell.syntax_tree.handlers.chapter1.Level1SyntaxTree;
@@ -61,6 +63,20 @@ public class Main {
                 level_1.execute();
 
                 levelSyntaxTree = new Level1SyntaxTree();
+                levelSyntaxTree.writeStepsReport(levelSyntaxTree.generateStepsReport());
+
+            }
+
+        } else if (chapterNumber == 2) {
+
+            if (levelNumber == 3) {
+
+                System.out.println("HERE");
+
+                Level_3 level_3 = new Level_3(initCodeExecOutputFiles());
+                level_3.execute();
+
+                levelSyntaxTree = new Level3SyntaxTree();
                 levelSyntaxTree.writeStepsReport(levelSyntaxTree.generateStepsReport());
 
             }

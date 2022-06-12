@@ -1,13 +1,13 @@
-package pt.ua.deti.codespell.chapters.chapter_1;
+package pt.ua.deti.codespell.chapters.chapter_2;
 
 import java.io.*;
 
-public class Level_1 {
+public class Level_3 {
 
     private final File outputFile;
     private final File runtimeLogsFile;
 
-    public Level_1(File[] outputFiles) {
+    public Level_3(File[] outputFiles) {
         this.outputFile = outputFiles[0];
         this.runtimeLogsFile = outputFiles[1];
     }
@@ -31,7 +31,7 @@ public class Level_1 {
 
         try {
             /* DO NOT CHANGE LINE BELOW */
-            HelloWorldApp.main(new String[] {});
+            MyClass.main(new String[] {});
         } catch (Exception e) {
             runtimeLogsStream.println(e.getMessage());
         }

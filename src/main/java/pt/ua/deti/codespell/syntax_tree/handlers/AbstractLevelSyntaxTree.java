@@ -8,28 +8,35 @@ import pt.ua.deti.codespell.utils.StepGroup;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public abstract class AbstractLevelSyntaxTree {
 
     protected File fileToAnalyze;
     protected int stepsCount;
-    @Getter protected List<String> stepTips;
+    @Getter protected Set<String> stepTips;
 
     @Getter protected int score = 0;
     
     public AbstractLevelSyntaxTree(File fileToAnalyze, int stepsCount) {
         this.fileToAnalyze = fileToAnalyze;
         this.stepsCount = stepsCount;
-        this.stepTips = new ArrayList<>();
+        this.stepTips = new HashSet<>();
     }
 
     public List<Step> generateStepsReport() {
 
         List<Step> stepList = new ArrayList<>();
 
-        for (int stepIdx = 1; stepIdx <= stepsCount; stepIdx++)
-            stepList.add(new Step(stepIdx, isStepValid(stepIdx), getStepArgs(stepIdx)));
+        for (int stepIdx = 1; stepIdx <= stepsCount; stepIdx++) {
+            if (isStepValid(stepIdx)) {
+                stepList.add(new Step(stepIdx, isStepValid(stepIdx), getStepArgs(stepIdx)));
+            } else {
+                stepList.add(new Step(stepIdx, isStepValid(stepIdx), new ArrayList<>()));
+            }
+        }
         return stepList;
 
     }
@@ -37,7 +44,7 @@ public abstract class AbstractLevelSyntaxTree {
     public void writeStepsReport(List<Step> stepList) {
 
         File resultsFile = new File(File.separator + "stepsReport.txt");
-        StepGroup stepGroup = new StepGroup(stepList, stepTips);
+        StepGroup stepGroup = new StepGroup(stepList, new ArrayList<>(stepTips));
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
