@@ -137,6 +137,30 @@ public class Level3SyntaxTree extends AbstractLevelSyntaxTree {
             return false;
         }
 
+        boolean containsStarsValueOutput = output.stream().anyMatch(s -> s.contains("[System Output] Stars Value ::"));
+
+        if (!containsStarsValueOutput) {
+            stepTips.add("Please do not remove or change the support methods.");
+            return false;
+        }
+
+        List<String> finalOutput = output;
+        OptionalInt starsValueIdx = IntStream.range(0, output.size())
+                .filter(i -> finalOutput.get(i).contains("[System Output] Stars Value ::"))
+                .findFirst();
+
+        if (starsValueIdx.isEmpty()) {
+            stepTips.add("Please do not remove or change the support methods.");
+            return false;
+        }
+
+        String[] starsOutputSplit = output.get(starsValueIdx.getAsInt()).split("::");
+
+        if (starsOutputSplit.length != 2 || !output.get(starsValueIdx.getAsInt()).split("::")[1].matches("\\d+")) {
+            stepTips.add("Please do not change the support methods.");
+            return false;
+        }
+
         score += conditions.stream().filter(aBoolean -> aBoolean).count() * 10;
         return true;
 
@@ -352,11 +376,24 @@ public class Level3SyntaxTree extends AbstractLevelSyntaxTree {
             System.out.println("Error reading output lines");
         }
 
-        if (output.contains("[System Output] Night")) {
-            return Collections.singletonList("false");
-        } else {
-            return Collections.singletonList("true");
+        List<String> finalOutput = output;
+        OptionalInt starsValueIdx = IntStream.range(0, output.size())
+                .filter(i -> finalOutput.get(i).contains("[System Output] Stars Value ::"))
+                .findFirst();
+
+        if (starsValueIdx.isEmpty()) {
+            return Collections.emptyList();
         }
+
+        String[] starsOutputSplit = output.get(starsValueIdx.getAsInt()).split("::");
+
+        if (starsOutputSplit.length != 2 || !output.get(starsValueIdx.getAsInt()).split("::")[1].matches("\\d+")) {
+            return Collections.emptyList();
+        }
+
+        int starsCount = Integer.parseInt(starsOutputSplit[1]);
+
+        return Collections.singletonList(String.valueOf(starsCount));
 
     }
 
