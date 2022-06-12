@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Level3SyntaxTree extends AbstractLevelSyntaxTree {
@@ -370,8 +371,6 @@ public class Level3SyntaxTree extends AbstractLevelSyntaxTree {
             System.out.println("Error reading output lines");
         }
 
-        List<String> args = new ArrayList<>();
-
         List<String> finalOutput = output;
         OptionalInt starsValueIdx = IntStream.range(0, output.size())
                 .filter(i -> finalOutput.get(i).contains("[System Output] Stars Value ::"))
@@ -384,6 +383,7 @@ public class Level3SyntaxTree extends AbstractLevelSyntaxTree {
         else
             starsValue = 0;
 
+        List<String> args = output.stream().filter(s -> !s.contains("[System Output]")).collect(Collectors.toList());
         args.add(String.valueOf(starsValue));
 
         return args;
@@ -401,7 +401,7 @@ public class Level3SyntaxTree extends AbstractLevelSyntaxTree {
             System.out.println("Error reading output lines");
         }
 
-        return output.isEmpty() ? new ArrayList<>() : Collections.singletonList(output.get(output.size()-1));
+        return output.isEmpty() ? new ArrayList<>() : output.stream().filter(s -> !s.contains("[System Output]")).collect(Collectors.toList());
 
     }
 

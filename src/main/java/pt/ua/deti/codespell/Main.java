@@ -71,8 +71,6 @@ public class Main {
 
             if (levelNumber == 3) {
 
-                System.out.println("HERE");
-
                 Level_3 level_3 = new Level_3(initCodeExecOutputFiles());
                 level_3.execute();
 
