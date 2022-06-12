@@ -319,7 +319,7 @@ public class Level3SyntaxTree extends AbstractLevelSyntaxTree {
                     stepTips.add("Your conditions are wrong, or you are not printing the mandatory information.");
                     return false;
                 }
-            }else if (starsValue >= 40) {
+            }else if (starsValue > 40) {
                 if (output.stream().noneMatch("What a starry sky!"::equalsIgnoreCase)) {
                     stepTips.add("Your conditions are wrong, or you are not printing the mandatory information.");
                     return false;
