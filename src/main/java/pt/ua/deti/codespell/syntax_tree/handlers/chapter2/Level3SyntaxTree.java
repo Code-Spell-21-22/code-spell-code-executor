@@ -130,7 +130,7 @@ public class Level3SyntaxTree extends AbstractLevelSyntaxTree {
         conditions.add(output.contains("[System Output] Night"));
 
         if (!output.contains("[System Output] Night")) {
-            stepTips.add("The day value in the variable must not be .");
+            stepTips.add("The value in the variable 'day' may not be correct.");
             return false;
         }
 
@@ -217,7 +217,7 @@ public class Level3SyntaxTree extends AbstractLevelSyntaxTree {
                     .findFirst();
 
             if (starsValueIdx.isEmpty()) {
-                stepTips.add("Please do not remove or change the support methods. Debug 0");
+                stepTips.add("Please do not remove or change the support methods.");
                 return false;
             }
 
@@ -245,7 +245,7 @@ public class Level3SyntaxTree extends AbstractLevelSyntaxTree {
             }
 
         } else {
-            stepTips.add("Please do not remove or change the support methods.  Debug 1");
+            stepTips.add("Please do not remove or change the support methods.");
             return false;
         }
 
