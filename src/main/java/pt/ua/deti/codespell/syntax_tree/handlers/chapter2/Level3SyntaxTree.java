@@ -385,7 +385,6 @@ public class Level3SyntaxTree extends AbstractLevelSyntaxTree {
             starsValue = 0;
 
         args.add(String.valueOf(starsValue));
-        output.stream().filter("What a starry sky!"::equalsIgnoreCase).findFirst().ifPresent(args::add);
 
         return args;
 
@@ -402,10 +401,7 @@ public class Level3SyntaxTree extends AbstractLevelSyntaxTree {
             System.out.println("Error reading output lines");
         }
 
-        List<String> args = new ArrayList<>();
-        output.stream().filter("So many stars!"::equalsIgnoreCase).findFirst().ifPresent(args::add);
-
-        return args;
+        return output.isEmpty() ? new ArrayList<>() : Collections.singletonList(output.get(output.size()-1));
 
     }
 
